@@ -14,6 +14,8 @@ import com.devstudios.redsocial.application.dtos.auth.LoginUserDto;
 import com.devstudios.redsocial.application.dtos.auth.RegisterUserDto;
 import com.devstudios.redsocial.application.services.AuthService;
 
+import jakarta.validation.Valid;
+
 
 
 
@@ -25,24 +27,24 @@ public class AuthController {
     AuthService service;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login( @RequestBody LoginUserDto dto ){
+    public ResponseEntity<?> login( @Valid @RequestBody LoginUserDto dto ){
         var res = service.login(dto);
         return ResponseEntity.status(res.getStatus()).body(res);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register( RegisterUserDto dto ){
+    public ResponseEntity<?> register( @Valid @RequestBody RegisterUserDto dto ){
         var res = service.register(dto);
         return ResponseEntity.status(res.getStatus()).body(res);
     }
-    
+
     @GetMapping("/verify-account")
     public ResponseEntity<?> verifyAccount(){
         return null;
     }
 
     @PutMapping("/update-by-code/{code}")
-    public ResponseEntity<?> resetPassword( @PathVariable String code ){
+    public ResponseEntity<?> resetPassword( @Valid @PathVariable String code ){
         return null;
     }
 
