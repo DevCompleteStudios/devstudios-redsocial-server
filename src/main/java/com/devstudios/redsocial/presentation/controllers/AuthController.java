@@ -38,8 +38,8 @@ public class AuthController {
         return ResponseEntity.status(res.getStatus()).body(res);
     }
 
-    @GetMapping("/verify-account")
-    public ResponseEntity<?> verifyAccount(){
+    @GetMapping("/verify-email")
+    public ResponseEntity<?> verifyEmail(){
         return null;
     }
 

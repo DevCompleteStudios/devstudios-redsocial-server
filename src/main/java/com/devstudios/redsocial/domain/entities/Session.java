@@ -19,10 +19,9 @@ public class Session {
 
     @ManyToOne
     private User user;
-    private int ipAdress;
+    private String ipAdress;
     private String device;
     private String browser;
-    private String location;
     private Boolean isActive;
     private LocalDateTime createdAt;
 
@@ -45,10 +44,10 @@ public class Session {
     public void setUser(User user) {
         this.user = user;
     }
-    public int getIpAdress() {
+    public String getIpAdress() {
         return ipAdress;
     }
-    public void setIpAdress(int ipAdress) {
+    public void setIpAdress(String ipAdress) {
         this.ipAdress = ipAdress;
     }
     public String getDevice() {
@@ -62,12 +61,6 @@ public class Session {
     }
     public void setBrowser(String browser) {
         this.browser = browser;
-    }
-    public String getLocation() {
-        return location;
-    }
-    public void setLocation(String location) {
-        this.location = location;
     }
     public Boolean getIsActive() {
         return isActive;

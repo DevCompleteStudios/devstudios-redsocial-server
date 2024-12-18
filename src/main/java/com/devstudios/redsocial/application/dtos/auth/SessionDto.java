@@ -10,10 +10,9 @@ import com.devstudios.redsocial.application.dtos.shared.Dto;
 public class SessionDto extends Dto {
 
     private LocalDateTime lastConnection;
-    private Long ipAdress;
+    private String ipAdress;
     private String device;
     private String browser;
-    private String location;
 
 
     public LocalDateTime getLastConnection() {
@@ -22,10 +21,10 @@ public class SessionDto extends Dto {
     public void setLastConnection(LocalDateTime lastConnection) {
         this.lastConnection = lastConnection;
     }
-    public Long getIpAdress() {
+    public String getIpAdress() {
         return ipAdress;
     }
-    public void setIpAdress(Long ipAdress) {
+    public void setIpAdress(String ipAdress) {
         this.ipAdress = ipAdress;
     }
     public String getDevice() {
@@ -39,12 +38,6 @@ public class SessionDto extends Dto {
     }
     public void setBrowser(String browser) {
         this.browser = browser;
-    }
-    public String getLocation() {
-        return location;
-    }
-    public void setLocation(String location) {
-        this.location = location;
     }
 
 }
