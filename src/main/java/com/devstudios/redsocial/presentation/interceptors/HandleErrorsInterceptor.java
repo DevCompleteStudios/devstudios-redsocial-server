@@ -12,6 +12,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.devstudios.redsocial.domain.errors.CustomError;
+
 
 @ControllerAdvice
 public class HandleErrorsInterceptor {
@@ -36,6 +38,11 @@ public class HandleErrorsInterceptor {
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     public ResponseEntity<?> handleMediaTypeNotSupported( HttpMediaTypeNotSupportedException ex ){
         return getResponse("Media type is not valid", 416);
+    }
+
+    @ExceptionHandler(CustomError.class)
+    public ResponseEntity<?> handleCustomError( CustomError ex ){
+        return getResponse(ex.getError(), ex.getStatus());
     }
 
 
