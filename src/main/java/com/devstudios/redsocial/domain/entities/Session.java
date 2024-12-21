@@ -3,7 +3,10 @@ package com.devstudios.redsocial.domain.entities;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -14,12 +17,14 @@ import jakarta.persistence.Table;
 public class Session {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime lastConnection;
 
-    @ManyToOne
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
     private User user;
-    private String ipAdress;
+    private String ipAddress;
     private String device;
     private String browser;
     private Boolean isActive;
@@ -44,11 +49,11 @@ public class Session {
     public void setUser(User user) {
         this.user = user;
     }
-    public String getIpAdress() {
-        return ipAdress;
+    public String getIpAddress() {
+        return ipAddress;
     }
-    public void setIpAdress(String ipAdress) {
-        this.ipAdress = ipAdress;
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
     }
     public String getDevice() {
         return device;
@@ -78,7 +83,7 @@ public class Session {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((ipAdress == null) ? 0 : ipAdress.hashCode());
+        result = prime * result + ((ipAddress == null) ? 0 : ipAddress.hashCode());
         result = prime * result + ((device == null) ? 0 : device.hashCode());
         result = prime * result + ((browser == null) ? 0 : browser.hashCode());
         return result;
@@ -92,10 +97,10 @@ public class Session {
         if (getClass() != obj.getClass())
             return false;
         Session other = (Session) obj;
-        if (ipAdress == null) {
-            if (other.ipAdress != null)
+        if (ipAddress == null) {
+            if (other.ipAddress != null)
                 return false;
-        } else if (!ipAdress.equals(other.ipAdress))
+        } else if (!ipAddress.equals(other.ipAddress))
             return false;
         if (device == null) {
             if (other.device != null)

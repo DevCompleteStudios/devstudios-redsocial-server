@@ -3,7 +3,11 @@ package com.devstudios.redsocial.domain.entities;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -15,6 +19,7 @@ import jakarta.persistence.Table;
 public class User {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private String username;
     private String nickname;
@@ -22,12 +27,15 @@ public class User {
     private String email;
     private String description;
     private LocalDateTime createdAt;
-    private Boolean isActive;
+    private Boolean isActive = true;
+
+    @Column(nullable=true)
+    private LocalDateTime birthdate;
 
     @OneToOne
     private Avatar avatar;
 
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="user", orphanRemoval=true)
     private List<Session> sessions;
 
 
@@ -90,6 +98,14 @@ public class User {
     }
     public void setSessions(List<Session> sessions) {
         this.sessions = sessions;
+    }
+
+    public LocalDateTime getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthDate(LocalDateTime birthdate) {
+        this.birthdate = birthdate;
     }
 
 }

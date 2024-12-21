@@ -1,9 +1,11 @@
 package com.devstudios.redsocial.application.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.devstudios.redsocial.application.dtos.auth.LoginUserDto;
 import com.devstudios.redsocial.application.dtos.auth.RegisterUserDto;
@@ -28,7 +30,7 @@ public class AuthService {
     @Autowired
     private HttpServletRequest request;
 
-
+    @Transactional(readOnly=false)
     public ResponseDto<UserAuthDto> login(LoginUserDto dto){
         User user = usersRepository.findByEmail(dto.getEmail())
             .orElseThrow( () -> CustomError.notFound("Account not exists"));
@@ -40,7 +42,9 @@ public class AuthService {
 
         // Validar que el inició de sesión sea valido
         Session newSession = isValidCurrentSession(user.getSessions());
+
         if( newSession != null ){
+            newSession.setUser(user);
             this.verifyEmail(user.getEmail());
             user.getSessions().add(newSession);
             usersRepository.save(user);
@@ -56,8 +60,30 @@ public class AuthService {
     }
 
 
+    @Transactional(readOnly=false)
     public ResponseDto<UserAuthDto> register( RegisterUserDto dto ){
-        return null;
+        User user = new User();
+        String hashPassword = dto.getPassword();
+        Session session = getCurrentSession();
+        List<Session> sessions = new ArrayList<>();
+        sessions.add(session);
+        
+        user.setEmail(dto.getEmail());
+        user.setPassword(hashPassword);
+        user.setUsername(dto.getUsername());
+        user.setBirthDate(dto.getBirthdate());
+        user.setDescription(dto.getDescription());
+        
+        if( user.getNickname() != null )
+        user.setNickname(dto.getNickname());
+        else {
+            user.setNickname(dto.getUsername());
+        }
+
+        session.setUser(user);
+        user.setSessions(sessions);
+        usersRepository.save(user);
+        return new ResponseDto<>(201, null, "JWT");
     }
 
 
@@ -101,7 +127,7 @@ public class AuthService {
         String os = userAgent.getOperatingSystem().getName();
 
         Session session = new Session();
-        session.setIpAdress(ip);
+        session.setIpAddress(ip);
         session.setBrowser(browser);
         session.setDevice(os);
 
