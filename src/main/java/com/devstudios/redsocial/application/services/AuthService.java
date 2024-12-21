@@ -44,7 +44,6 @@ public class AuthService {
             this.verifyEmail(user.getEmail());
             user.getSessions().add(newSession);
             usersRepository.save(user);
-            // Enviamos el correo electronico con el código de verificacion
             throw CustomError.badRequest("A verification code has been sent");
         }
 
@@ -86,9 +85,7 @@ public class AuthService {
 
     private Session isValidCurrentSession( List<Session> sessions ){
         Session current = getCurrentSession();
-        Boolean isValid = sessions.contains(current);
-
-        return null;
+        return (sessions.contains(current)) ? null : current;
     }
 
 

@@ -74,5 +74,43 @@ public class Session {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((ipAdress == null) ? 0 : ipAdress.hashCode());
+        result = prime * result + ((device == null) ? 0 : device.hashCode());
+        result = prime * result + ((browser == null) ? 0 : browser.hashCode());
+        return result;
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Session other = (Session) obj;
+        if (ipAdress == null) {
+            if (other.ipAdress != null)
+                return false;
+        } else if (!ipAdress.equals(other.ipAdress))
+            return false;
+        if (device == null) {
+            if (other.device != null)
+                return false;
+        } else if (!device.equals(other.device))
+            return false;
+        if (browser == null) {
+            if (other.browser != null)
+                return false;
+        } else if (!browser.equals(other.browser))
+            return false;
+        return true;
+    }
+
+
+    
 
 }
